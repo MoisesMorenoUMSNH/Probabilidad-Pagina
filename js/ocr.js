@@ -45,9 +45,10 @@ export function limpiarTextoCrudo(texto) {
         .replace(/0IC/g, 'DIC').replace(/d1c/gi, 'dic')
         .replace(/([A-Z]{3})Z[S5]\b/g, '$1 25')        
         .replace(/([A-Z]{3})Z[4]\b/g, '$1 24')         
-        .replace(/(\d{2})[,.]([A-Z]{3})(\d{2})/g, '$1 $2 $3') 
+        .replace(/([A-Z]{3})Z[3]\b/g, '$1 23')         
         .replace(/(\d{2})([A-Z]{3})(\d{2})/g, '$1 $2 $3')     
-        .replace(/\s+/g, ' ');                         
+        .replace(/(\d{2})[,.]([A-Z]{3})(\d{2})/g, '$1 $2 $3') 
+        .replace(/  +/g, ' '); 
 }
 
 function aislarColumnaIzquierda(linea) {
@@ -63,33 +64,56 @@ function aislarColumnaIzquierda(linea) {
 export function extraerDatosFrente(textoFrente) {
     const rawData = { nombre: '', direccion: '', noServicio: '', periodo: '', totalPagar: 0, kwhConsumidos: 0, precioPorKwh: 0, lecturaActual: 0, lecturaAnterior: 0 };
     const lineas = textoFrente.split('\n');
-    let dirArray = [];
 
     const regexDir = /\b(AV\b|CALLE|C\.?P\.?\s*\d|CANTERA|VILLAS|COL\b|FRA\b|FRACC|COLONIA|PEDREGAL|MORELIA|MICH)/i;
-    const regexStopwords = /\b(CFE|COMISI|FEDERAL|ELECTRICIDAD|CONCEPTO|ENERGIA|BASICO|PERIODO|LECTURA|MEDID|TARIFA|CORTE|DESCARGA|MERCADO|SUBTOTAL|PRECIO)\b/i;
+    const regexStopwords = /\b(CFE|COMISI|FEDERAL|ELECTRICIDAD|CONCEPTO|ENERGIA|BASICO|PERIODO|LECTURA|MEDID|TARIFA|LIMITE|CORTE|DESCARGA|MERCADO|MAYORISTA|DESGLOSE|IMPORTE|SUBTOTAL|PRECIO|ESTIMAD|SERVICIO|MULTIPLICAD|FACTURAD|PAGO)\b/i;
 
-    lineas.forEach((linea) => {
-        const limpia = aislarColumnaIzquierda(linea.trim());
-        if (limpia.length < 3) return;
+    let dirArray = [];
+
+    for (let i = 0; i < lineas.length; i++) {
+        const limpia = aislarColumnaIzquierda(lineas[i].trim());
+        if (limpia.length < 3) continue;
 
         if (regexDir.test(limpia)) dirArray.push(limpia);
         
-        const soloLetras = limpia.replace(/[^A-ZÁÉÍÓÚÑ\s]/g, '').trim();
+        const soloLetras = limpia.replace(/[^A-ZÁÉÍÓÚÑ\s]/g, '').replace(/\s+/g, ' ').trim();
         if (!rawData.nombre && soloLetras.length >= 8 && soloLetras.split(' ').length >= 2 && !regexStopwords.test(soloLetras)) {
             rawData.nombre = soloLetras;
         }
-    });
-    rawData.direccion = dirArray.join(', ');
+    }
+    
+    // Fallback de nombre: buscar nombre en la linea justo arriba de la primera linea de direccion
+    if (!rawData.nombre) {
+        for (let i = 1; i < lineas.length; i++) {
+            if (regexDir.test(lineas[i])) {
+                let candidato = aislarColumnaIzquierda(lineas[i - 1].trim());
+                candidato = candidato.replace(/[^A-ZÁÉÍÓÚÑ\s]/g, '').replace(/\s+/g, ' ').trim();
+                if (candidato.length >= 5 && candidato.split(' ').length >= 2 && !regexStopwords.test(candidato)) {
+                    rawData.nombre = candidato;
+                    break;
+                }
+            }
+        }
+    }
 
-    const matchServ = textoFrente.match(/NO\.?\s*(?:DE\s*)?SERVICIO\s*:?\s*([\d\s]{8,})/i) || textoFrente.match(/\b(\d{12})\b/);
+    if (dirArray.length > 0) rawData.direccion = dirArray.join(', ');
+
+    const matchServ = textoFrente.match(/NO\.?\s*(?:DE\s*)?SERVICIO\s*:?\s*([\d\s]{8,})/i) || textoFrente.match(/SERVICIO[\s\S]{0,30}?(\d{10,15})/i) || textoFrente.match(/\b(\d{12})\b/);
     if (matchServ) rawData.noServicio = matchServ[1].replace(/\s/g, '');
 
     const matchPeriodo = textoFrente.match(/(\d{1,2}\s+[A-Z]{3}\s+\d{2})\s*[-~]\s*(\d{1,2}\s+[A-Z]{3}\s+\d{2})/i);
-    if (matchPeriodo && MESES_VALIDOS.includes(matchPeriodo[1].match(/[A-Z]{3}/i)[0].toUpperCase())) {
-        rawData.periodo = `${matchPeriodo[1].toUpperCase()} - ${matchPeriodo[2].toUpperCase()}`;
+    if (matchPeriodo) {
+        let mes1 = matchPeriodo[1].match(/[A-Z]{3}/i);
+        let mes2 = matchPeriodo[2].match(/[A-Z]{3}/i);
+        if (mes1 && mes2 && MESES_VALIDOS.includes(mes1[0].toUpperCase()) && MESES_VALIDOS.includes(mes2[0].toUpperCase())) {
+            rawData.periodo = `${matchPeriodo[1].toUpperCase()} - ${matchPeriodo[2].toUpperCase()}`;
+        }
+    } else {
+        const mc = textoFrente.match(/Corte\s+a\s+partir\s+\w+\s+(\d{1,2}\s+[A-Z]{3}\s+\d{2})/i);
+        if (mc) rawData.periodo = 'Hasta ' + mc[1].toUpperCase();
     }
 
-    const matchTotal = textoFrente.match(/\bTotal\s+\$\s*([\d,.]+)/i) || textoFrente.match(/TOTAL\s*A\s*PAGAR[\s\S]{0,60}\$\s*([\d,.]+)/i);
+    const matchTotal = textoFrente.match(/\bTotal\s+\$\s*([\d,.]+)/i) || textoFrente.match(/\$([\d,.]+)[\s\S]{0,80}PESOS/i) || textoFrente.match(/TOTAL\s*A\s*PAGAR[\s\S]{0,60}\$\s*([\d,.]+)/i);
     if (matchTotal) rawData.totalPagar = parseFloat(matchTotal[1].replace(/,/g, ''));
 
     const matchEnergia = textoFrente.match(/Energ[iíÍ]a\s*\(?\s*k\s*w\s*h?\s*\)?\s*0*(\d{2,5})\s+0*(\d{2,5})\s+(\d{1,4})/i);
@@ -98,10 +122,16 @@ export function extraerDatosFrente(textoFrente) {
         rawData.lecturaActual = Math.max(l1, l2);
         rawData.lecturaAnterior = Math.min(l1, l2);
         rawData.kwhConsumidos = parseInt(matchEnergia[3]);
+    } else {
+        const ms = textoFrente.match(/\bSuma\s+(\d{1,4})\b/i);
+        if (ms) rawData.kwhConsumidos = parseInt(ms[1]);
     }
 
-    const matchPrecio = textoFrente.match(/[BbÁá][áaÁ]sico\s+\d+\s+([\d]+\.[\d]{2,})/i);
-    if (matchPrecio) rawData.precioPorKwh = parseFloat(matchPrecio[1]);
+    const matchPrecio = textoFrente.match(/[BbÁá][áaÁ]sico\s+\d+\s+([\d]+\.[\d]{2,})/i) || textoFrente.match(/(\d\.\d{3})\s+\d+\.\d{2}/);
+    if (matchPrecio) {
+        let val = parseFloat(matchPrecio[1]);
+        if (val > 0 && val < 10) rawData.precioPorKwh = val;
+    }
 
     return rawData;
 }

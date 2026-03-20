@@ -152,9 +152,10 @@ function crearNodoTarjeta(recibo) {
         <div class="tarjeta_contenido">
             <div class="datos_beneficiario"><p><strong>${recibo.nombre||'Incognito'}</strong></p><p>${recibo.direccion||''} | No. Serv: ${recibo.noServicio||''}</p></div>
             <div class="datos_clave">
-                <div class="dato_item"><div class="dato_etiqueta">TOTAL PAGAR</div><div class="dato_valor">$${Number(recibo.totalPagar).toFixed(2)}</div></div>
+                <div class="dato_item"><div class="dato_etiqueta">TOTAL A PAGAR</div><div class="dato_valor">$${Number(recibo.totalPagar).toFixed(2)}</div></div>
                 <div class="dato_item"><div class="dato_etiqueta">CONSUMO</div><div class="dato_valor">${recibo.kwhConsumidos||0} kWh</div></div>
                 <div class="dato_item"><div class="dato_etiqueta">PRECIO/kWh</div><div class="dato_valor">$${Number(recibo.precioPorKwh||0).toFixed(3)}</div></div>
+                <div class="dato_item"><div class="dato_etiqueta">LECTURA ACTUAL</div><div class="dato_valor">${recibo.lecturaActual||0}</div></div>
             </div>
             ${historicoHTML}${statsHTML}
         </div>
