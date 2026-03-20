@@ -74,7 +74,7 @@ function validarYGuardarUnRecibo(datosFte, datosRev, sourceName, silencioso = fa
 
     const recibos = cargarRecibos();
     recibos.push({
-        id: Date.now() + Math.random(),
+        id: Date.now() + Math.floor(Math.random() * 1000),
         ...datosFte, historico: datosRev.historico || [], fecha: new Date().toISOString()
     });
     guardarRecibos(recibos);
@@ -150,7 +150,10 @@ function crearNodoTarjeta(recibo) {
             <button class="btn_eliminar" data-id="${recibo.id}">Borrar</button>
         </div>
         <div class="tarjeta_contenido">
-            <div class="datos_beneficiario"><p><strong>${recibo.nombre||'Incognito'}</strong></p><p>${recibo.direccion||''} | No. Serv: ${recibo.noServicio||''}</p></div>
+            <div class="datos_beneficiario">
+                ${recibo.nombre && recibo.nombre !== 'No detectado' ? '<p><strong>' + recibo.nombre + '</strong></p>' : ''}
+                <p>${recibo.direccion||''} | No. Serv: ${recibo.noServicio||''}</p>
+            </div>
             <div class="datos_clave">
                 <div class="dato_item"><div class="dato_etiqueta">TOTAL A PAGAR</div><div class="dato_valor">$${Number(recibo.totalPagar).toFixed(2)}</div></div>
                 <div class="dato_item"><div class="dato_etiqueta">CONSUMO</div><div class="dato_valor">${recibo.kwhConsumidos||0} kWh</div></div>
@@ -171,7 +174,7 @@ function crearNodoTarjeta(recibo) {
         }
         div.classList.toggle('expandida');
         if (div.classList.contains('expandida') && hasHist) {
-            const ctx = div.querySelector(`#chart_${recibo.id}`);
+            const ctx = document.getElementById(`chart_${recibo.id}`);
             if (ctx && !ctx.getAttribute('data-rend')) {
                 ctx.setAttribute('data-rend', '1'); setTimeout(() => renderizarGrafico(ctx, recibo.historico), 100);
             }
