@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Probabilidad y Estadistica</title>
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="./styles/styles.css">
+
+    <!-- Librerias externas -->
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>        <!-- OCR -->
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>         <!-- Lector PDF -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>                                     <!-- Graficas -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>            <!-- Excel -->
+</head>
+
+<body>
+
+    <!-- ==================== NAVEGACION ==================== -->
+    <header>
+        <nav>
+            <div class="nav_logo">
+                <a href="./">MOISES MORENO CORTEZ</a>
+            </div>
+            <button type="button" class="btn_menu" id="btn_menu" aria-label="Menú">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul id="nav_links">
+                <li><a href="#recibos">RECIBOS</a></li>
+                <li><a href="#calculos">CALCULOS</a></li>
+                <li><a href="#regresion">REGRESIÓN</a></li>
+            </ul>
+        </nav>
+
+        <!-- Pantalla de bienvenida -->
+        <div class="presentacion">
+            <h1>BIENVENIDOS</h1>
+            <h3>PROBABILIDAD Y ESTADISTICA</h3>
+            <p class="presentacion_desc">
+                Podrás agregar tus recibos para sacar todos los datos que contiene,
+                calcular media y varianza, y realizar análisis de regresión lineal.
+                Solo elige una opción en la barra de navegación para comenzar.
+            </p>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- ==================== SECCION: RECIBOS ==================== -->
+        <section id="recibos" class="section_recibos">
+
+            <!-- Titulo y boton de agregar -->
+            <div class="seccion_header">
+                <h2>RECIBOS</h2>
+                <button type="button" id="btn_agregar">
+                    <img class="icono_btn" src="images/add.png" alt="agregar">
+                    <p>Agregar Recibo</p>
+                </button>
+            </div>
+
+            <!-- Barra de info: total de recibos + borrar todos -->
+            <div id="barra_recibos" class="barra_recibos" style="display:none;">
+                <span id="total_recibos"></span>
+                <button type="button" id="btn_borrar_todos" class="btn_borrar_todos">Borrar todos</button>
+            </div>
+
+            <!-- Contenedor donde se renderizan las tarjetas -->
+            <div id="contenedor_recibos" class="contenedor_recibos"></div>
+        </section>
+
+        <!-- ==================== SECCION: CALCULOS ==================== -->
+        <section id="calculos" class="section_calculos">
+
+            <!-- Titulo y botones de calculo -->
+            <div class="seccion_header">
+                <h2>CALCULOS</h2>
+                <div class="calculos_botones">
+                    <button type="button" class="btn_oscuro" id="btn_calc_media">
+                        <img class="icono_btn" src="images/media.png" alt="media">
+                        <p>Calcular Media</p>
+                    </button>
+                    <button type="button" class="btn_oscuro" id="btn_calc_varianza">
+                        <img class="icono_btn" src="images/varianza.png" alt="varianza">
+                        <p>Calcular Varianza</p>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Panel de resultado: Media -->
+            <div id="panel_media" class="resultado_panel" style="display:none;">
+                <h3>MEDIA (PROMEDIO)</h3>
+                <p class="resultado_formula" id="formula_media"></p>
+                <p class="resultado_valor" id="valor_media"></p>
+                <div class="resultado_grafico">
+                    <canvas id="chart_media"></canvas>
+                </div>
+            </div>
+
+            <!-- Panel de resultado: Varianza -->
+            <div id="panel_varianza" class="resultado_panel" style="display:none;">
+                <h3>VARIANZA</h3>
+                <p class="resultado_formula" id="formula_varianza"></p>
+                <p class="resultado_valor" id="valor_varianza"></p>
+                <div class="resultado_grafico">
+                    <canvas id="chart_varianza"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SECCION: REGRESION LINEAL ==================== -->
+        <section id="regresion" class="section_regresion">
+
+            <!-- Titulo y botones de entrada de datos -->
+            <div class="seccion_header">
+                <h2>REGRESIÓN LINEAL</h2>
+                <div class="regresion_toggle">
+                    <button type="button" id="btn_reg_excel">
+                        <img class="icono_btn" src="images/excel.png" alt="excel">
+                        <p>Subir Excel</p>
+                    </button>
+                    <button type="button" id="btn_reg_manual">
+                        <img class="icono_btn" src="images/table.png" alt="tabla">
+                        <p>Entrada Manual</p>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Panel: Entrada manual de datos -->
+            <div id="panel_manual" class="regresion_panel" style="display:none;">
+                <h3>DATOS MANUALES</h3>
+                <div class="regresion_controles">
+                    <label>¿Cuántos datos vas a ingresar?</label>
+                    <input type="number" id="reg_num_datos" min="2" max="100" value="5">
+                    <button type="button" id="btn_crear_tabla">Crear Tabla</button>
+                </div>
+                <div id="contenedor_tabla_reg"></div>
+            </div>
+
+            <!-- Panel: Subir archivo Excel/CSV -->
+            <div id="panel_excel" class="regresion_panel" style="display:none;">
+                <h3>SUBIR ARCHIVO</h3>
+                <div id="drop_excel" class="zona_drop">
+                    <p>Arrastra tu archivo Excel o CSV aquí</p>
+                    <p class="drop_alt">o selecciona un archivo</p>
+                    <input type="file" id="archivo_excel" accept=".xlsx,.xls,.csv">
+                </div>
+                <div id="contenedor_tabla_excel"></div>
+            </div>
+
+            <!-- Boton para calcular la regresion -->
+            <div id="reg_btn_calcular_wrap" class="regresion_calcular_wrap" style="display:none;">
+                <button type="button" id="btn_calcular_regresion">
+                    <img class="icono_btn" src="images/varianza.png" alt="calcular">
+                    <p>Calcular Regresión</p>
+                </button>
+            </div>
+
+            <!-- Panel de resultados de regresion -->
+            <div id="panel_regresion_resultado" class="regresion_resultado" style="display:none;">
+                <div class="regresion_ecuacion" id="reg_ecuacion"></div>
+                <div class="regresion_grafico">
+                    <canvas id="chart_regresion"></canvas>
+                </div>
+                <div class="regresion_resumen" id="reg_resumen"></div>
+            </div>
+        </section>
+
+        <!-- ==================== MODAL: AGREGAR RECIBO ==================== -->
+        <div id="modal_upload" class="modal" style="display:none;">
+            <div class="modal_contenido">
+                <h2>AGREGAR RECIBO</h2>
+
+                <!-- Paso 1: Elegir tipo de archivo -->
+                <div id="selector_tipo" class="selector_tipo">
+                    <p>Selecciona el tipo de archivo:</p>
+                    <div class="tipo_botones">
+                        <button type="button" class="btn_tipo" id="btn_tipo_imagen">Imagenes</button>
+                        <button type="button" class="btn_tipo" id="btn_tipo_pdf">PDF</button>
+                    </div>
+                </div>
+
+                <!-- Paso 2a: Subir imagenes -->
+                <div id="campos_imagen" style="display:none;">
+                    <div id="drop_frente" class="zona_drop">
+                        <p>Arrastra la imagen del frente aqui</p>
+                        <p class="drop_alt">o selecciona un archivo</p>
+                        <input type="file" id="imagen_frente" accept="image/*">
+                    </div>
+                    <div id="drop_reverso" class="zona_drop">
+                        <p>Arrastra la imagen del reverso aqui</p>
+                        <p class="drop_alt">o selecciona un archivo (opcional)</p>
+                        <input type="file" id="imagen_reverso" accept="image/*">
+                    </div>
+                </div>
+
+                <!-- Paso 2b: Subir PDFs -->
+                <div id="campos_pdf" style="display:none;">
+                    <div id="drop_pdf" class="zona_drop">
+                        <p>Arrastra tus PDFs aqui</p>
+                        <p class="drop_alt">o selecciona archivos</p>
+                        <input type="file" id="archivo_pdf" accept="application/pdf" multiple>
+                    </div>
+                    <p id="pdf_contador" class="pdf_contador"></p>
+                </div>
+
+                <!-- Barra de progreso del OCR -->
+                <div id="ocr_progreso" style="display:none;">
+                    <p id="ocr_mensaje">Procesando...</p>
+                    <div class="barra_progreso">
+                        <div id="barra_llenado" class="barra_llenado"></div>
+                    </div>
+                </div>
+
+                <!-- Botones del modal -->
+                <div class="modal_botones">
+                    <button type="button" id="btn_procesar" style="display:none;">
+                        <p>Procesar Recibo</p>
+                    </button>
+                    <button type="button" id="btn_cancelar">
+                        <p>Cancelar</p>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== MODAL: VER TODOS LOS RECIBOS ==================== -->
+        <div id="modal_todos" class="modal" style="display:none;">
+            <div class="modal_todos_contenido">
+                <div class="modal_todos_header">
+                    <h2>TODOS LOS RECIBOS</h2>
+                    <button type="button" id="btn_cerrar_todos">Cerrar</button>
+                </div>
+                <div id="contenedor_todos" class="contenedor_todos"></div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Logica principal -->
+    <script type="module" src="./js/app.js"></script>
+
+</body>
+
+</html>

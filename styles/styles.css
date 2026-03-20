@@ -1,0 +1,1070 @@
+/* =============================================
+   ESTILOS GENERALES
+   ============================================= */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilo base para todos los botones */
+button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #d6eeff;
+    color: #061b26;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    padding: 5px 20px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #91d9ff;
+}
+
+/* Iconos dentro de botones */
+button img {
+    width: 20px;
+    height: 20px;
+}
+
+.icono_btn {
+    width: 20px;
+    height: 20px;
+}
+
+/* Boton oscuro (para fondos claros) */
+.btn_oscuro {
+    background-color: #061b26;
+    color: #adcfe5;
+}
+
+.btn_oscuro:hover {
+    background-color: #0d2e3f;
+    color: #fff;
+}
+
+.btn_oscuro .icono_btn {
+    filter: invert(1);
+}
+
+/* Boton eliminar (rojo) */
+.btn_eliminar {
+    background-color: #ff6b6b;
+    color: #fff;
+    font-size: 11px;
+    padding: 5px 15px;
+}
+
+.btn_eliminar:hover {
+    background-color: #ee5a5a;
+}
+
+/* Boton borrar todos (rojo) */
+.btn_borrar_todos {
+    background-color: #ff6b6b;
+    color: #fff;
+    font-size: 11px;
+    padding: 5px 15px;
+}
+
+.btn_borrar_todos:hover {
+    background-color: #ee5a5a;
+}
+
+/* Mensaje cuando no hay datos */
+.mensaje_vacio {
+    text-align: center;
+    color: #061b26;
+    font-style: italic;
+    padding: 20px;
+}
+
+/* =============================================
+   BARRA DE NAVEGACION
+   ============================================= */
+
+header nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 14px 60px;
+    margin: 0;
+    background-color: rgba(6, 27, 38, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
+    border-bottom: 1px solid rgba(145, 217, 255, 0.15);
+}
+
+/* Logo / nombre (izquierda) */
+.nav_logo a {
+    text-decoration: none;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    letter-spacing: 2px;
+}
+
+/* Links de navegacion (derecha) */
+header nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: #adcfe5;
+    background-color: transparent;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 13px;
+    letter-spacing: 1px;
+    padding: 8px 22px;
+    border-radius: 20px;
+    border: 1px solid transparent;
+    transition: 0.3s;
+}
+
+header nav ul li a:hover {
+    color: #fff;
+    background-color: rgba(145, 217, 255, 0.12);
+    border-color: rgba(145, 217, 255, 0.3);
+}
+
+/* Boton hamburguesa — solo visible en mobile */
+.btn_menu {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: transparent;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.btn_menu span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: #adcfe5;
+    border-radius: 2px;
+    transition: 0.3s;
+}
+
+/* Animacion: 3 barras → X */
+.btn_menu.abierto span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.btn_menu.abierto span:nth-child(2) {
+    opacity: 0;
+}
+
+.btn_menu.abierto span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* =============================================
+   PANTALLA DE BIENVENIDA
+   ============================================= */
+
+header div.presentacion {
+    background-color: #061b26;
+    color: #fff;
+    font-family: 'Courier New', Courier, monospace;
+    height: 100dvh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 30px;
+    box-sizing: border-box;
+}
+
+.presentacion_desc {
+    max-width: 600px;
+    font-size: 14px;
+    color: #adcfe5;
+    line-height: 1.6;
+    margin-top: 20px;
+}
+
+/* =============================================
+   SECCION: RECIBOS (fondo claro)
+   ============================================= */
+
+.section_recibos {
+    min-height: 100dvh;
+    padding-top: 100px;
+    padding-bottom: 50px;
+    background-color: #d6eefd;
+    color: #061b26;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Header oscuro con titulo */
+.section_recibos .seccion_header {
+    background-color: #061b26;
+    color: #fff;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 30px;
+    margin: 0 50px;
+    border-radius: 40px;
+}
+
+.section_recibos .seccion_header h2 {
+    font-size: 30px;
+}
+
+/* Barra de info: total + borrar todos */
+.barra_recibos {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 50px 0;
+    padding: 10px 20px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
+    font-weight: bold;
+    color: #061b26;
+}
+
+/* Contenedor de tarjetas */
+.contenedor_recibos {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 30px 50px;
+}
+
+/* =============================================
+   TARJETA INDIVIDUAL DE RECIBO
+   ============================================= */
+
+.tarjeta_recibo {
+    background-color: #061b26;
+    color: #fff;
+    font-family: 'Courier New', Courier, monospace;
+    border-radius: 30px;
+    padding: 20px 30px;
+    transition: padding 0.3s;
+}
+
+.tarjeta_recibo h3 {
+    font-size: 18px;
+    margin: 0;
+}
+
+/* Header clickeable: periodo + total + flecha */
+.tarjeta_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    gap: 10px;
+}
+
+.tarjeta_resumen {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+    min-width: 0;
+}
+
+.tarjeta_flecha {
+    font-size: 14px;
+    color: #91d9ff;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+}
+
+.tarjeta_recibo.expandida .tarjeta_flecha {
+    transform: rotate(90deg);
+}
+
+.tarjeta_total {
+    font-size: 20px;
+    font-weight: bold;
+    color: #91d9ff;
+    white-space: nowrap;
+}
+
+/* Contenido desplegable */
+.tarjeta_contenido {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+}
+
+.tarjeta_recibo.expandida .tarjeta_contenido {
+    max-height: 2000px;
+}
+
+.tarjeta_recibo.expandida {
+    padding: 30px;
+}
+
+/* Datos del beneficiario */
+.datos_beneficiario {
+    background-color: #0d2e3f;
+    padding: 12px 15px;
+    border-radius: 15px;
+    margin: 10px 0;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #adcfe5;
+}
+
+.datos_beneficiario p {
+    margin: 0;
+}
+
+.datos_beneficiario strong {
+    color: #fff;
+    font-size: 14px;
+}
+
+/* Grid de datos clave (total, kWh, precio, lectura) */
+.datos_clave {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.dato_item {
+    background-color: #0d2e3f;
+    padding: 15px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.dato_etiqueta {
+    font-size: 11px;
+    color: #adcfe5;
+    margin-bottom: 5px;
+}
+
+.dato_valor {
+    font-size: 20px;
+    font-weight: bold;
+    color: #91d9ff;
+}
+
+/* Tabla de consumo historico */
+.tabla_historico {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin: 15px 0;
+}
+
+.tabla_historico th {
+    background-color: #adcfe5;
+    color: #061b26;
+    padding: 8px;
+    text-align: left;
+}
+
+.tabla_historico td {
+    padding: 6px 8px;
+    border-bottom: 1px solid #0d2e3f;
+}
+
+.tabla_historico tr:nth-child(even) {
+    background-color: #0a2535;
+}
+
+/* Contenedor de grafica */
+.contenedor_grafico {
+    background-color: #0d2e3f;
+    border-radius: 15px;
+    padding: 15px;
+    margin: 15px 0;
+    height: 250px;
+}
+
+/* Estadisticas (promedio, min, max, tendencia) */
+.estadisticas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.stat_item {
+    background-color: #d6eefd;
+    color: #061b26;
+    border-radius: 12px;
+    padding: 10px;
+    text-align: center;
+}
+
+.stat_etiqueta {
+    font-size: 10px;
+}
+
+.stat_valor {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* =============================================
+   SELECTOR DE TIPO DE ARCHIVO (dentro del modal)
+   ============================================= */
+
+.selector_tipo p {
+    margin: 0 0 12px;
+    font-size: 14px;
+    color: #fff;
+}
+
+.tipo_botones {
+    display: flex;
+    gap: 12px;
+}
+
+.btn_tipo {
+    flex: 1;
+    justify-content: center;
+    font-size: 14px;
+    padding: 12px 20px;
+    background-color: #0d2e3f;
+    color: #adcfe5;
+    border: 2px solid #adcfe5;
+}
+
+.btn_tipo:hover {
+    background-color: #1a4560;
+    color: #fff;
+}
+
+.btn_tipo.activo {
+    background-color: #91d9ff;
+    color: #061b26;
+    border-color: #91d9ff;
+    font-weight: bold;
+}
+
+/* =============================================
+   ZONAS DE DRAG & DROP
+   ============================================= */
+
+.zona_drop {
+    border: 2px dashed #adcfe5;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    margin: 10px 0;
+    background-color: #0d2e3f;
+    transition: 0.3s;
+}
+
+.zona_drop:hover {
+    border-color: #91d9ff;
+    background-color: #1a4560;
+}
+
+.zona_drop.dragover {
+    border-color: #91d9ff;
+    background-color: #1a4560;
+    box-shadow: 0 0 15px rgba(145, 217, 255, 0.3);
+}
+
+.zona_drop.tiene_archivo {
+    border-color: #6bffb8;
+    background-color: #0d3f2e;
+}
+
+.zona_drop p {
+    margin: 5px 0;
+    color: #adcfe5;
+    font-size: 13px;
+}
+
+.zona_drop .drop_alt {
+    font-size: 11px;
+    color: #6a9ab5;
+}
+
+.zona_drop .nombre_archivo {
+    color: #91d9ff;
+    font-weight: bold;
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.zona_drop input[type="file"] {
+    display: none;
+}
+
+.pdf_contador {
+    font-size: 12px;
+    color: #91d9ff;
+    margin: 5px 0 0;
+    text-align: center;
+}
+
+/* =============================================
+   MODALES
+   ============================================= */
+
+/* Fondo oscuro del modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(6, 27, 38, 0.85);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Modal de subir recibo */
+.modal_contenido {
+    background-color: #061b26;
+    color: #adcfe5;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 30px;
+    border-radius: 30px;
+    width: 90%;
+    max-width: 500px;
+}
+
+.modal_contenido h2 {
+    margin-top: 0;
+}
+
+.modal_contenido label {
+    display: block;
+    margin: 15px 0 5px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.modal_contenido input[type="file"] {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+}
+
+.modal_botones {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Barra de progreso */
+.barra_progreso {
+    background-color: #adcfe5;
+    border-radius: 10px;
+    height: 20px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.barra_llenado {
+    background-color: #91d9ff;
+    height: 100%;
+    width: 0%;
+    border-radius: 10px;
+    transition: width 0.3s;
+}
+
+/* Boton "Ver mas recibos" */
+.btn_ver_mas {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 15px;
+    font-size: 14px;
+    background-color: #061b26;
+    color: #91d9ff;
+    border: 2px dashed #91d9ff;
+    border-radius: 30px;
+}
+
+.btn_ver_mas:hover {
+    background-color: #0d2e3f;
+}
+
+/* Modal de todos los recibos */
+.modal_todos_contenido {
+    background-color: #d6eefd;
+    font-family: 'Courier New', Courier, monospace;
+    border-radius: 30px;
+    width: 95%;
+    max-width: 900px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.modal_todos_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    background-color: #061b26;
+    color: #fff;
+    border-radius: 30px 30px 0 0;
+}
+
+.modal_todos_header h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.contenedor_todos {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* =============================================
+   SECCION: CALCULOS (fondo oscuro)
+   ============================================= */
+
+.section_calculos {
+    min-height: 100dvh;
+    padding-top: 100px;
+    padding-bottom: 50px;
+    background-color: #061b26;
+    color: #fff;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Header claro */
+.section_calculos .seccion_header {
+    background-color: #d6eefd;
+    color: #061b26;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 30px;
+    margin: 0 50px;
+    border-radius: 40px;
+}
+
+.section_calculos .seccion_header h2 {
+    font-size: 30px;
+}
+
+/* Botones de calculo (dentro del header claro) */
+.calculos_botones {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* Panel de resultado (media o varianza) */
+.resultado_panel {
+    background-color: #0d2e3f;
+    border-radius: 30px;
+    padding: 25px 30px;
+    margin: 0 50px 20px;
+}
+
+.resultado_panel h3 {
+    font-size: 20px;
+    color: #fff;
+    margin: 0 0 10px;
+}
+
+.resultado_formula {
+    font-size: 13px;
+    color: #adcfe5;
+    margin: 5px 0;
+    line-height: 1.8;
+}
+
+.resultado_valor {
+    font-size: 32px;
+    font-weight: bold;
+    color: #91d9ff;
+    margin: 10px 0;
+}
+
+.resultado_grafico {
+    background-color: #061b26;
+    border-radius: 15px;
+    padding: 15px;
+    margin-top: 15px;
+    height: 300px;
+}
+
+/* =============================================
+   SECCION: REGRESION LINEAL (fondo claro)
+   ============================================= */
+
+.section_regresion {
+    min-height: 100dvh;
+    padding-top: 100px;
+    padding-bottom: 50px;
+    background-color: #d6eefd;
+    color: #061b26;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Header oscuro */
+.section_regresion .seccion_header {
+    background-color: #061b26;
+    color: #fff;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 30px;
+    margin: 0 50px 20px;
+    border-radius: 40px;
+}
+
+.section_regresion .seccion_header h2 {
+    font-size: 30px;
+}
+
+/* Botones toggle (Subir Excel / Entrada Manual) */
+.regresion_toggle {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.section_regresion .seccion_header button.activo {
+    background-color: #91d9ff;
+}
+
+/* Paneles de regresion (datos manuales / subir excel) */
+.regresion_panel {
+    background-color: #061b26;
+    color: #fff;
+    margin: 0 50px 20px;
+    padding: 25px 30px;
+    border-radius: 30px;
+}
+
+.regresion_panel h3 {
+    font-size: 20px;
+    margin: 0 0 15px;
+    color: #fff;
+}
+
+/* Boton "Calcular Regresion" */
+.regresion_calcular_wrap {
+    display: flex;
+    justify-content: center;
+    padding: 10px 50px 20px;
+}
+
+.regresion_calcular_wrap button {
+    background-color: #061b26;
+    color: #adcfe5;
+    font-size: 12px;
+    padding: 5px 20px;
+}
+
+.regresion_calcular_wrap button:hover {
+    background-color: #0d2e3f;
+    color: #fff;
+}
+
+.regresion_calcular_wrap .icono_btn {
+    filter: invert(1);
+}
+
+/* Controles de entrada manual */
+.regresion_controles {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.regresion_controles label {
+    font-size: 14px;
+    color: #adcfe5;
+}
+
+.regresion_controles input[type="number"] {
+    width: 70px;
+    padding: 8px 12px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    border: 2px solid #adcfe5;
+    border-radius: 10px;
+    text-align: center;
+    outline: none;
+    background-color: #0d2e3f;
+    color: #fff;
+    transition: 0.3s;
+}
+
+.regresion_controles input[type="number"]:focus {
+    border-color: #91d9ff;
+    box-shadow: 0 0 8px rgba(145, 217, 255, 0.3);
+}
+
+.regresion_controles button {
+    background-color: #d6eeff;
+    color: #061b26;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    padding: 5px 20px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.regresion_controles button:hover {
+    background-color: #91d9ff;
+}
+
+/* Tabla de datos X/Y */
+.regresion_tabla {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.regresion_tabla th {
+    background-color: #adcfe5;
+    color: #061b26;
+    padding: 8px 15px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.regresion_tabla th:first-child {
+    border-radius: 12px 0 0 0;
+}
+
+.regresion_tabla th:last-child {
+    border-radius: 0 12px 0 0;
+}
+
+.regresion_tabla td {
+    padding: 6px 15px;
+    text-align: center;
+    border-bottom: 1px solid #0d2e3f;
+}
+
+.regresion_tabla tr:nth-child(even) {
+    background-color: #0a2535;
+}
+
+.regresion_tabla input {
+    width: 100%;
+    max-width: 200px;
+    padding: 8px 12px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    border: 1px solid #adcfe5;
+    border-radius: 8px;
+    text-align: center;
+    outline: none;
+    background-color: #0d2e3f;
+    color: #fff;
+    box-sizing: border-box;
+    transition: 0.3s;
+}
+
+.regresion_tabla input:focus {
+    border-color: #91d9ff;
+    box-shadow: 0 0 6px rgba(145, 217, 255, 0.25);
+}
+
+/* Panel de resultados de regresion */
+.regresion_resultado {
+    background-color: #061b26;
+    color: #fff;
+    margin: 0 50px 30px;
+    padding: 25px 30px;
+    border-radius: 30px;
+}
+
+/* Ecuacion */
+.regresion_ecuacion {
+    background-color: #0d2e3f;
+    color: #adcfe5;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    padding: 18px 25px;
+    border-radius: 15px;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.regresion_ecuacion strong {
+    color: #91d9ff;
+}
+
+/* Grafica de regresion */
+.regresion_grafico {
+    background-color: #0d2e3f;
+    border-radius: 15px;
+    padding: 15px;
+    height: 400px;
+    margin-bottom: 20px;
+}
+
+/* Resumen estadistico (n, Σx, Σy, etc.) */
+.regresion_resumen {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+}
+
+.reg_stat_item {
+    background-color: #d6eefd;
+    color: #061b26;
+    border-radius: 12px;
+    padding: 10px;
+    text-align: center;
+}
+
+.reg_stat_etiqueta {
+    font-size: 10px;
+}
+
+.reg_stat_valor {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* =============================================
+   RESPONSIVE: MOBILE (max 768px)
+   ============================================= */
+
+@media (max-width: 768px) {
+
+    /* Nav: mostrar hamburguesa */
+    header nav {
+        padding: 12px 20px;
+    }
+
+    .btn_menu {
+        display: flex;
+    }
+
+    /* Links se convierten en dropdown vertical */
+    header nav ul {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: rgba(6, 27, 38, 0.95);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        padding: 15px 20px;
+        gap: 5px;
+        border-bottom: 1px solid rgba(145, 217, 255, 0.15);
+    }
+
+    header nav ul.abierto {
+        display: flex;
+    }
+
+    header nav ul li a {
+        display: block;
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+
+    /* Texto de bienvenida mas pequeño */
+    header div.presentacion h1 {
+        font-size: 28px;
+    }
+
+    header div.presentacion h3 {
+        font-size: 16px;
+    }
+
+    .presentacion_desc {
+        font-size: 12px;
+        padding: 0 10px;
+    }
+
+    /* Reducir margenes en todas las secciones */
+    .section_recibos,
+    .section_calculos,
+    .section_regresion {
+        padding-top: 80px;
+    }
+
+    .section_recibos .seccion_header,
+    .section_calculos .seccion_header,
+    .section_regresion .seccion_header {
+        margin: 0 15px 15px;
+        padding: 20px;
+        border-radius: 25px;
+    }
+
+    .barra_recibos {
+        margin: 15px 15px 0;
+        font-size: 16px;
+    }
+
+    .contenedor_recibos {
+        padding: 20px 15px;
+    }
+
+    .tarjeta_recibo {
+        padding: 15px 20px;
+        border-radius: 20px;
+    }
+
+    .resultado_panel {
+        margin: 0 15px 15px;
+        padding: 20px;
+        border-radius: 20px;
+    }
+
+    .regresion_panel {
+        margin: 0 15px 15px;
+        padding: 20px;
+        border-radius: 20px;
+    }
+
+    .regresion_calcular_wrap {
+        padding: 0 15px 15px;
+    }
+
+    .regresion_resultado {
+        margin: 0 15px 15px;
+        padding: 20px;
+        border-radius: 20px;
+    }
+
+    .calculos_botones,
+    .regresion_toggle {
+        flex-wrap: wrap;
+    }
+}
